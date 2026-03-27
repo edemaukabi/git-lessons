@@ -1,0 +1,1555 @@
+/* ================================================================
+   ALEX MORGAN — PORTFOLIO STYLESHEET
+   ----------------------------------------------------------------
+   TABLE OF CONTENTS
+   ----------------------------------------------------------------
+   1.  CSS Custom Properties (Variables)
+   2.  CSS Reset & Base Styles
+   3.  Typography
+   4.  Reusable Utilities  (container, section, buttons, badges)
+   5.  Navbar
+   6.  Hero Section
+   7.  About Section
+   8.  Skills Section
+   9.  Projects Section
+  10.  Experience / Timeline
+  11.  Testimonials
+  12.  Contact Section
+  13.  Footer
+  14.  Back-to-top Button
+  15.  Animations & Keyframes
+  16.  Media Queries (Mobile Responsive)
+   ================================================================ */
+
+
+/* ================================================================
+   1. CSS CUSTOM PROPERTIES (VARIABLES)
+   Variables let us change the whole colour scheme from one place.
+   ================================================================ */
+:root {
+  /* --- Colour Palette --- */
+  --clr-bg:          #0d0f14;      /* dark page background          */
+  --clr-surface:     #151820;      /* card / panel background       */
+  --clr-surface-2:   #1c2030;      /* slightly lighter surface      */
+  --clr-border:      #2a2f42;      /* subtle borders                */
+  --clr-accent:      #e8ff47;      /* lime-yellow primary accent    */
+  --clr-accent-dim:  rgba(232, 255, 71, 0.12); /* tinted accent bg  */
+  --clr-accent-2:    #5b8aff;      /* blue secondary accent         */
+  --clr-text:        #e2e8f0;      /* main body text                */
+  --clr-muted:       #7a849e;      /* secondary / label text        */
+  --clr-white:       #ffffff;
+
+  /* Project card accent colours */
+  --clr-blue:   #4f87f0;
+  --clr-green:  #34d399;
+  --clr-orange: #fb923c;
+  --clr-purple: #a78bfa;
+  --clr-red:    #f87171;
+  --clr-teal:   #2dd4bf;
+
+  /* --- Typography --- */
+  --font-display: 'Syne', sans-serif;
+  --font-mono:    'DM Mono', monospace;
+
+  /* --- Spacing scale --- */
+  --space-xs:  0.25rem;   /*  4px */
+  --space-sm:  0.5rem;    /*  8px */
+  --space-md:  1rem;      /* 16px */
+  --space-lg:  1.5rem;    /* 24px */
+  --space-xl:  2rem;      /* 32px */
+  --space-2xl: 3rem;      /* 48px */
+  --space-3xl: 5rem;      /* 80px */
+
+  /* --- Borders & Shadows --- */
+  --radius-sm:  6px;
+  --radius-md:  12px;
+  --radius-lg:  20px;
+  --radius-full: 9999px;
+
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 30px rgba(232, 255, 71, 0.15);
+
+  /* --- Transitions --- */
+  --transition: 0.25s ease;
+  --transition-slow: 0.4s ease;
+
+  /* --- Layout --- */
+  --max-width: 1200px;
+  --navbar-h:  70px;
+}
+
+
+/* ================================================================
+   2. CSS RESET & BASE STYLES
+   Normalize browser differences before adding our own styles.
+   ================================================================ */
+
+/*
+  Box-sizing border-box:
+  Makes width/height include padding and border,
+  which is much easier to reason about.
+*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Smooth scrolling for all anchor links */
+html {
+  scroll-behavior: smooth;
+  font-size: 16px; /* 1rem = 16px */
+}
+
+body {
+  font-family: var(--font-mono);
+  background-color: var(--clr-bg);
+  color: var(--clr-text);
+  line-height: 1.7;
+  overflow-x: hidden; /* prevent horizontal scroll from animations */
+}
+
+/* Make images responsive by default */
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Remove list decoration from all lists */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Remove default anchor styles */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Better button reset */
+button {
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  background: none;
+}
+
+/* Form elements inherit font */
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+
+/* ================================================================
+   3. TYPOGRAPHY
+   ================================================================ */
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+h1 { font-size: clamp(2.4rem, 6vw, 4.5rem); }
+h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+h3 { font-size: clamp(1.1rem, 2.5vw, 1.4rem); }
+
+p { font-size: 0.95rem; }
+
+/* A coloured accent word inside headings */
+.accent {
+  color: var(--clr-accent);
+}
+
+/* Section title + subtitle styling */
+.section-title {
+  text-align: center;
+  margin-bottom: var(--space-sm);
+}
+
+.section-subtitle {
+  text-align: center;
+  color: var(--clr-muted);
+  font-size: 0.9rem;
+  margin-bottom: var(--space-2xl);
+  letter-spacing: 0.05em;
+}
+
+
+/* ================================================================
+   4. REUSABLE UTILITIES
+   ================================================================ */
+
+/* --- Container: centres content and limits max-width --- */
+.container {
+  width: 90%;
+  max-width: var(--max-width);
+  margin-inline: auto; /* same as  margin-left: auto; margin-right: auto; */
+}
+
+/* --- Section: consistent vertical padding for every section --- */
+.section {
+  padding-block: var(--space-3xl);  /* top & bottom spacing */
+}
+
+/* Alternating background to separate sections visually */
+.about,
+.projects,
+.contact {
+  background-color: var(--clr-surface);
+}
+
+/* -------- BUTTONS -------- */
+/*
+  All buttons share a flex layout so icons sit
+  nicely inline next to text.
+*/
+.btn {
+  display: inline-flex;         /* flex to align icon + text */
+  align-items: center;          /* vertically centre content */
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: 0.75rem 1.6rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: transform var(--transition), box-shadow var(--transition),
+              background-color var(--transition), color var(--transition);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Primary: filled accent button */
+.btn--primary {
+  background-color: var(--clr-accent);
+  color: var(--clr-bg);
+}
+.btn--primary:hover,
+.btn--primary:focus-visible {
+  background-color: #d4eb2a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(232, 255, 71, 0.3);
+}
+
+/* Outline: transparent with accent border */
+.btn--outline {
+  background-color: transparent;
+  color: var(--clr-accent);
+  border: 2px solid var(--clr-accent);
+}
+.btn--outline:hover,
+.btn--outline:focus-visible {
+  background-color: var(--clr-accent-dim);
+  transform: translateY(-2px);
+}
+
+/* Ghost: subtle, no border */
+.btn--ghost {
+  background-color: var(--clr-surface-2);
+  color: var(--clr-text);
+  border: 1px solid var(--clr-border);
+}
+.btn--ghost:hover {
+  border-color: var(--clr-accent);
+  color: var(--clr-accent);
+}
+
+/* Small variant for project cards */
+.btn--small {
+  padding: 0.45rem 1rem;
+  font-size: 0.8rem;
+}
+
+/* Full-width button for form submit */
+.btn--full {
+  width: 100%;
+}
+
+/* -------- SOCIAL LINKS -------- */
+.social-link {
+  display: flex;              /* flex to centre the SVG icon */
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--clr-border);
+  color: var(--clr-muted);
+  transition: color var(--transition), border-color var(--transition),
+              background-color var(--transition), transform var(--transition);
+}
+.social-link:hover {
+  color: var(--clr-accent);
+  border-color: var(--clr-accent);
+  background-color: var(--clr-accent-dim);
+  transform: translateY(-3px);
+}
+
+/* -------- PILL BADGES -------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.85rem;
+  background-color: var(--clr-surface-2);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  color: var(--clr-text);
+  transition: border-color var(--transition), color var(--transition);
+}
+.badge:hover {
+  border-color: var(--clr-accent);
+  color: var(--clr-accent);
+}
+
+/* Learning badges get a special accent border */
+.badge--learning {
+  border-color: var(--clr-accent-2);
+  color: var(--clr-accent-2);
+}
+
+/* -------- TECH TAGS (inside project cards) -------- */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  background-color: var(--clr-accent-dim);
+  color: var(--clr-accent);
+  border-radius: var(--radius-sm);
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
+
+/* ================================================================
+   5. NAVBAR
+   ----------------------------------------------------------------
+   KEY FLEXBOX CONCEPTS DEMONSTRATED:
+   • display: flex on .navbar
+   • justify-content: space-between  (logo ← gap → links)
+   • align-items: center             (vertical centering)
+   • gap on the links flex container
+   ================================================================ */
+.navbar {
+  position: fixed;              /* sticks to top while scrolling */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: var(--navbar-h);
+
+  /* FLEX CONTAINER: puts logo and links side-by-side */
+  display: flex;
+  align-items: center;           /* vertically centre all children */
+  justify-content: space-between;/* logo on left, links on right   */
+  padding-inline: 5%;
+
+  background-color: rgba(13, 15, 20, 0.9);
+  border-bottom: 1px solid var(--clr-border);
+  backdrop-filter: blur(14px);   /* frosted-glass effect */
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* Logo text */
+.navbar__logo {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--clr-white);
+  letter-spacing: -0.03em;
+}
+
+.logo-bracket {
+  color: var(--clr-accent);
+}
+
+/* Nav links container: flex row with spacing */
+.navbar__links {
+  display: flex;             /* puts all anchor tags in a row    */
+  align-items: center;       /* vertically centres the links     */
+  gap: var(--space-xl);      /* spacing between each link        */
+}
+
+.navbar__links a {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--clr-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: color var(--transition);
+  position: relative;
+}
+
+/* Animated underline on hover */
+.navbar__links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--clr-accent);
+  transition: width var(--transition);
+}
+.navbar__links a:hover {
+  color: var(--clr-accent);
+}
+.navbar__links a:hover::after {
+  width: 100%;
+}
+
+/* ---- Hamburger menu (mobile only) ---- */
+/* Hidden on desktop with display:none in media query */
+.nav-toggle {
+  display: none; /* the actual checkbox input is hidden */
+}
+
+.hamburger {
+  display: none;                /* hidden on desktop */
+  flex-direction: column;
+  justify-content: space-between;
+  width: 26px;
+  height: 18px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+/* Three bars of the hamburger */
+.hamburger span {
+  display: block;
+  height: 2px;
+  background-color: var(--clr-text);
+  border-radius: 2px;
+  transition: transform var(--transition), opacity var(--transition);
+}
+
+/* Animate into an X when checkbox is checked */
+.nav-toggle:checked ~ .hamburger span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+.nav-toggle:checked ~ .hamburger span:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle:checked ~ .hamburger span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+
+/* ================================================================
+   6. HERO SECTION
+   ----------------------------------------------------------------
+   KEY FLEXBOX CONCEPTS DEMONSTRATED:
+   • display: flex on .hero
+   • flex-direction: row (default)
+   • align-items: center
+   • justify-content: space-between
+   • flex: 1 on .hero__content  (take available space)
+   • Nested flex containers (.hero__cta, .hero__socials)
+   ================================================================ */
+.hero {
+  min-height: 100vh;            /* full-viewport height          */
+  padding-top: var(--navbar-h); /* offset fixed navbar           */
+  padding-inline: 5%;
+  position: relative;
+  overflow: hidden;
+
+  /* FLEX CONTAINER: side-by-side text + image */
+  display: flex;
+  flex-direction: row;          /* explicit: children in a row   */
+  align-items: center;          /* vertically centre both sides  */
+  justify-content: space-between;
+  gap: var(--space-2xl);
+}
+
+/* Decorative blobs (absolutely positioned circles) */
+.hero__blob {
+  position: absolute;
+  border-radius: var(--radius-full);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+.hero__blob--1 {
+  width: 400px;
+  height: 400px;
+  background: rgba(232, 255, 71, 0.06);
+  top: -100px;
+  right: 10%;
+}
+.hero__blob--2 {
+  width: 300px;
+  height: 300px;
+  background: rgba(91, 138, 255, 0.08);
+  bottom: 10%;
+  left: -50px;
+}
+
+/* Left side: all the text content */
+.hero__content {
+  flex: 1;                  /* grow to fill available space */
+  min-width: 0;             /* prevent overflow on small screens */
+  position: relative;
+  z-index: 1;
+  animation: fadeSlideUp 0.8s ease both;
+}
+
+.hero__tag {
+  font-size: 0.9rem;
+  color: var(--clr-muted);
+  margin-bottom: var(--space-sm);
+  letter-spacing: 0.05em;
+}
+
+.hero__name {
+  font-weight: 800;
+  color: var(--clr-white);
+  margin-bottom: var(--space-md);
+}
+
+/* Typing animation wrapper */
+.hero__subtitle {
+  margin-bottom: var(--space-lg);
+}
+.typing-wrapper {
+  display: inline-block;
+  border-right: 2px solid var(--clr-accent); /* blinking cursor */
+  padding-right: 4px;
+  animation: blink 0.8s step-end infinite;
+}
+.typing-text {
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--clr-accent);
+}
+
+.hero__desc {
+  color: var(--clr-muted);
+  max-width: 520px;
+  margin-bottom: var(--space-xl);
+  font-size: 0.95rem;
+}
+
+/* CTA row: two buttons side by side */
+.hero__cta {
+  display: flex;         /* FLEX: buttons in a row             */
+  flex-wrap: wrap;       /* wrap to next line on small screens */
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+/* Social icons row */
+.hero__socials {
+  display: flex;         /* FLEX: icons in a row               */
+  gap: var(--space-md);
+}
+
+/* Right side: avatar */
+.hero__image {
+  flex-shrink: 0;        /* don't shrink below its natural size */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  animation: fadeSlideUp 0.8s 0.2s ease both;
+}
+
+/* Avatar frame */
+.avatar-frame {
+  position: relative;
+  width: clamp(200px, 25vw, 320px);
+  height: clamp(200px, 25vw, 320px);
+}
+
+.avatar-initials {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--clr-surface-2), var(--clr-surface));
+  border: 3px solid var(--clr-border);
+
+  /* FLEX: centre the initials text */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 800;
+  color: var(--clr-accent);
+  letter-spacing: -0.02em;
+}
+
+/* Rotating decorative ring */
+.avatar-ring {
+  position: absolute;
+  inset: -12px;          /* inset: shorthand for top/right/bottom/left */
+  border-radius: var(--radius-full);
+  border: 2px dashed var(--clr-accent);
+  opacity: 0.3;
+  animation: spin 20s linear infinite;
+}
+
+
+/* ================================================================
+   7. ABOUT SECTION
+   ----------------------------------------------------------------
+   KEY FLEXBOX CONCEPTS DEMONSTRATED:
+   • .about__wrapper: flex row  (text | stats)
+   • .about__info-list: flex row with wrap
+   • .about__stats: flex row with wrap (stat cards)
+   ================================================================ */
+.about__wrapper {
+  display: flex;            /* FLEX: text and stats side by side */
+  flex-direction: row;      /* explicit row direction            */
+  align-items: flex-start;  /* align to top edge                 */
+  gap: var(--space-3xl);
+}
+
+.about__text {
+  flex: 1.2;              /* text side gets slightly more space */
+  min-width: 0;
+}
+.about__text p {
+  color: var(--clr-muted);
+  margin-bottom: var(--space-md);
+}
+
+/* Info list: flex row of two columns (wraps to 1 col on mobile) */
+.about__info-list {
+  display: flex;            /* FLEX: info items in a row         */
+  flex-wrap: wrap;          /* wrap so 2 items per row           */
+  gap: var(--space-sm) var(--space-xl);
+  margin-block: var(--space-lg) var(--space-xl);
+}
+.about__info-list li {
+  flex-basis: calc(50% - var(--space-xl));  /* two items per row */
+  font-size: 0.85rem;
+  color: var(--clr-muted);
+}
+.info-label {
+  color: var(--clr-accent);
+  font-weight: 600;
+  margin-right: var(--space-xs);
+}
+
+/* Stat cards container: flex row that wraps */
+.about__stats {
+  flex: 0.8;
+  display: flex;            /* FLEX: stat cards in rows          */
+  flex-wrap: wrap;          /* wrap so 2 cards per row           */
+  gap: var(--space-md);
+  align-content: flex-start;
+}
+
+/* Individual stat card */
+.stat-card {
+  flex: 1 1 calc(50% - var(--space-md) / 2);  /* 2 per row */
+  min-width: 120px;
+
+  display: flex;            /* FLEX: number + label stacked      */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  padding: var(--space-lg);
+  background-color: var(--clr-bg);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition), transform var(--transition);
+}
+.stat-card:hover {
+  border-color: var(--clr-accent);
+  transform: translateY(-4px);
+}
+
+.stat-number {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--clr-accent);
+  line-height: 1;
+  margin-bottom: var(--space-xs);
+}
+.stat-label {
+  font-size: 0.78rem;
+  color: var(--clr-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+
+/* ================================================================
+   8. SKILLS SECTION
+   ----------------------------------------------------------------
+   KEY FLEXBOX CONCEPTS DEMONSTRATED:
+   • .skills__wrapper: flex row (bars | badges)
+   • .badge-cloud: flex row with flex-wrap
+   ================================================================ */
+.skills__wrapper {
+  display: flex;              /* FLEX: two columns side by side  */
+  gap: var(--space-3xl);
+  align-items: flex-start;
+}
+
+.skills__bars,
+.skills__badges {
+  flex: 1;                    /* equal width columns             */
+  min-width: 0;
+}
+
+.skills__group-title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--clr-muted);
+  margin-bottom: var(--space-lg);
+}
+
+/* ---- Skill progress bars ---- */
+.skill-bar {
+  margin-bottom: var(--space-lg);
+}
+
+/* Header row: name on left, percentage on right */
+.skill-bar__header {
+  display: flex;              /* FLEX: name ← space → percent   */
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-xs);
+}
+.skill-bar__name {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+.skill-bar__percent {
+  font-size: 0.8rem;
+  color: var(--clr-accent);
+  font-weight: 600;
+}
+
+/* Track (the grey background bar) */
+.skill-bar__track {
+  height: 6px;
+  background-color: var(--clr-surface-2);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+/* Fill: uses CSS custom property --fill set inline on element */
+.skill-bar__fill {
+  height: 100%;
+  width: var(--fill);         /* width driven by inline CSS var  */
+  background: linear-gradient(90deg, var(--clr-accent), var(--clr-accent-2));
+  border-radius: var(--radius-full);
+  animation: growBar 1.2s ease both;
+}
+
+/* Badge cloud: flex row that wraps naturally */
+.badge-cloud {
+  display: flex;              /* FLEX: badges in a row that wraps */
+  flex-wrap: wrap;            /* allow badges to break to new row */
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xl);
+}
+
+/* Learning card callout box */
+.learning-card {
+  background-color: rgba(91, 138, 255, 0.06);
+  border: 1px solid rgba(91, 138, 255, 0.25);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+}
+.learning-card__title {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--clr-accent-2);
+  margin-bottom: var(--space-md);
+}
+
+
+/* ================================================================
+   9. PROJECTS SECTION
+   ----------------------------------------------------------------
+   KEY FLEXBOX CONCEPTS DEMONSTRATED:
+   • .projects__grid: flex row with flex-wrap (card grid)
+   • .project-card__header: flex column
+   • .project-card__tags: flex row with wrap
+   • .project-card__footer: flex row with space-between
+   • .project-card itself: flex column (to push footer to bottom)
+   ================================================================ */
+.projects__grid {
+  display: flex;              /* FLEX: cards in a wrapping row   */
+  flex-wrap: wrap;            /* wrap to next row when no space  */
+  gap: var(--space-xl);
+}
+
+/* Each card takes ~1/3 of the row minus gaps */
+.project-card {
+  flex: 1 1 300px;            /* grow, shrink, min 300px wide    */
+  max-width: calc(33.333% - var(--space-xl) * 2 / 3);
+
+  display: flex;              /* FLEX column: push footer down   */
+  flex-direction: column;
+
+  background-color: var(--clr-bg);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: transform var(--transition), box-shadow var(--transition),
+              border-color var(--transition);
+}
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-card);
+  border-color: var(--clr-accent);
+}
+
+/* Coloured image placeholder area */
+.project-card__image {
+  height: 140px;
+  display: flex;              /* FLEX: centre the emoji          */
+  align-items: center;
+  justify-content: center;
+}
+.project-card__emoji { font-size: 3rem; }
+
+/* Colour themes for each card image */
+.project-card__image--blue   { background: linear-gradient(135deg, rgba(79,135,240,0.2), rgba(79,135,240,0.05)); border-bottom: 1px solid rgba(79,135,240,0.2); }
+.project-card__image--green  { background: linear-gradient(135deg, rgba(52,211,153,0.2), rgba(52,211,153,0.05)); border-bottom: 1px solid rgba(52,211,153,0.2); }
+.project-card__image--orange { background: linear-gradient(135deg, rgba(251,146,60,0.2), rgba(251,146,60,0.05)); border-bottom: 1px solid rgba(251,146,60,0.2); }
+.project-card__image--purple { background: linear-gradient(135deg, rgba(167,139,250,0.2), rgba(167,139,250,0.05)); border-bottom: 1px solid rgba(167,139,250,0.2); }
+.project-card__image--red    { background: linear-gradient(135deg, rgba(248,113,113,0.2), rgba(248,113,113,0.05)); border-bottom: 1px solid rgba(248,113,113,0.2); }
+.project-card__image--teal   { background: linear-gradient(135deg, rgba(45,212,191,0.2), rgba(45,212,191,0.05)); border-bottom: 1px solid rgba(45,212,191,0.2); }
+
+/* Card body: flex column so footer sticks to bottom */
+.project-card__body {
+  padding: var(--space-lg);
+  display: flex;              /* FLEX column layout              */
+  flex-direction: column;
+  flex: 1;                    /* fill remaining vertical space   */
+  gap: var(--space-md);
+}
+
+.project-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+/* Tags: wrapping flex row */
+.project-card__tags {
+  display: flex;              /* FLEX: tags in a row             */
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.project-card__title {
+  font-size: 1.05rem;
+}
+.project-card__desc {
+  color: var(--clr-muted);
+  font-size: 0.85rem;
+  flex: 1;                    /* desc grows to fill space        */
+}
+
+/* Footer: two buttons on opposite ends */
+.project-card__footer {
+  display: flex;              /* FLEX: buttons in a row          */
+  gap: var(--space-sm);
+  justify-content: flex-start;
+  margin-top: auto;           /* push to bottom of the card      */
+}
+
+
+/* ================================================================
+  10. EXPERIENCE / TIMELINE
+   ----------------------------------------------------------------
+   KEY TECHNIQUES:
+   • Flex column container
+   • Alternating left/right layout via transform on odd items
+   • Pseudo-element vertical line
+   ================================================================ */
+.timeline {
+  position: relative;
+  max-width: 800px;
+  margin-inline: auto;
+
+  display: flex;              /* FLEX column: items stacked top to bottom */
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+/* Vertical centre line using a pseudo-element */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, transparent, var(--clr-border), transparent);
+  transform: translateX(-50%);
+}
+
+/* Each item: flex row to position dot + card */
+.timeline__item {
+  display: flex;              /* FLEX: dot + card side by side   */
+  align-items: center;
+  gap: var(--space-xl);
+  position: relative;
+}
+
+/* Left items: card on the left, dot on the right edge of card */
+.timeline__item--left {
+  flex-direction: row-reverse;  /* reverse so card is on left    */
+  padding-right: 50%;
+  padding-right: calc(50% + var(--space-xl));
+}
+
+/* Right items: card on the right, dot stays in center */
+.timeline__item--right {
+  flex-direction: row;
+  padding-left: calc(50% + var(--space-xl));
+}
+
+/* Centre dot */
+.timeline__dot {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+  background-color: var(--clr-accent);
+  border: 3px solid var(--clr-bg);
+  flex-shrink: 0;
+  z-index: 1;
+  box-shadow: 0 0 0 4px var(--clr-accent-dim);
+}
+
+/* Card */
+.timeline__card {
+  background-color: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  transition: border-color var(--transition);
+  width: 100%;
+}
+.timeline__card:hover {
+  border-color: var(--clr-accent);
+}
+
+.timeline__date {
+  display: inline-block;
+  font-size: 0.75rem;
+  color: var(--clr-accent);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-xs);
+}
+.timeline__title {
+  font-size: 1rem;
+  margin-bottom: var(--space-xs);
+}
+.timeline__place {
+  font-size: 0.8rem;
+  color: var(--clr-accent-2);
+  margin-bottom: var(--space-sm);
+}
+.timeline__desc {
+  font-size: 0.85rem;
+  color: var(--clr-muted);
+}
+
+
+/* ================================================================
+  11. TESTIMONIALS
+   ----------------------------------------------------------------
+   KEY FLEXBOX CONCEPTS DEMONSTRATED:
+   • .testimonials__track: flex row, overflow-x scroll (horizontal card scroller)
+   • .testimonial-card__footer: flex row with gap
+   ================================================================ */
+.testimonials__track {
+  display: flex;              /* FLEX: cards in a horizontal row */
+  gap: var(--space-lg);
+  overflow-x: auto;           /* horizontal scroll when overflow */
+  padding-bottom: var(--space-md); /* space for scrollbar         */
+  scroll-snap-type: x mandatory;   /* snap to each card           */
+  -webkit-overflow-scrolling: touch;/* smooth iOS scroll          */
+
+  /* Hide scrollbar cosmetically (still functional) */
+  scrollbar-width: thin;
+  scrollbar-color: var(--clr-border) transparent;
+}
+.testimonials__track::-webkit-scrollbar { height: 4px; }
+.testimonials__track::-webkit-scrollbar-track { background: transparent; }
+.testimonials__track::-webkit-scrollbar-thumb { background: var(--clr-border); border-radius: 2px; }
+
+/* Each testimonial card */
+.testimonial-card {
+  flex: 0 0 300px;            /* don't shrink, stay 300px wide   */
+  min-width: 300px;
+  scroll-snap-align: start;   /* snap to this card's start edge  */
+
+  background-color: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  font-style: normal;
+  transition: border-color var(--transition);
+}
+.testimonial-card:hover {
+  border-color: var(--clr-accent);
+}
+
+.testimonial-card__quote {
+  color: var(--clr-muted);
+  font-size: 0.9rem;
+  margin-bottom: var(--space-lg);
+  line-height: 1.8;
+}
+.testimonial-card__quote::before {
+  content: '"';
+  font-size: 3rem;
+  color: var(--clr-accent);
+  font-family: var(--font-display);
+  line-height: 0.5;
+  display: block;
+  margin-bottom: var(--space-sm);
+}
+
+/* Footer: avatar + name/role side by side */
+.testimonial-card__footer {
+  display: flex;              /* FLEX: avatar + text in a row    */
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.testimonial-card__avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--clr-accent-dim), var(--clr-surface-2));
+  border: 1px solid var(--clr-border);
+
+  display: flex;              /* FLEX: centre initials           */
+  align-items: center;
+  justify-content: center;
+
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--clr-accent);
+  flex-shrink: 0;
+}
+
+.testimonial-card__name {
+  display: block;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+.testimonial-card__role {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--clr-muted);
+}
+
+
+/* ================================================================
+  12. CONTACT SECTION
+   ----------------------------------------------------------------
+   KEY FLEXBOX CONCEPTS DEMONSTRATED:
+   • .contact__wrapper: flex row (info | form)
+   • .contact-items: flex column
+   • .contact-item: flex row (icon + text)
+   • .form-row: flex row (two input fields)
+   ================================================================ */
+.contact__wrapper {
+  display: flex;              /* FLEX: info and form side by side */
+  gap: var(--space-3xl);
+  align-items: flex-start;
+}
+
+.contact__info {
+  flex: 1;                    /* equal widths */
+  min-width: 0;
+}
+.contact__form-wrapper {
+  flex: 1.2;                  /* form gets slightly more space  */
+  min-width: 0;
+}
+
+.contact__intro {
+  color: var(--clr-muted);
+  font-size: 0.9rem;
+  margin-bottom: var(--space-xl);
+  line-height: 1.8;
+}
+
+/* Stack of contact info items */
+.contact-items {
+  display: flex;              /* FLEX column: items stacked      */
+  flex-direction: column;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
+}
+
+/* Each contact item: icon + text in a row */
+.contact-item {
+  display: flex;              /* FLEX: icon and text in a row    */
+  align-items: flex-start;
+  gap: var(--space-md);
+}
+
+.contact-item__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background-color: var(--clr-accent-dim);
+  border: 1px solid rgba(232, 255, 71, 0.2);
+  color: var(--clr-accent);
+  flex-shrink: 0;
+
+  display: flex;              /* FLEX: centre the SVG icon       */
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-item__label {
+  font-size: 0.75rem;
+  color: var(--clr-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 2px;
+}
+.contact-item__value {
+  font-size: 0.9rem;
+  color: var(--clr-text);
+  font-weight: 500;
+}
+.contact-item__value:hover {
+  color: var(--clr-accent);
+}
+
+.contact__socials {
+  display: flex;              /* FLEX: social icons in a row     */
+  gap: var(--space-md);
+}
+
+/* ---- Contact Form ---- */
+.contact-form {
+  display: flex;              /* FLEX column: fields stacked     */
+  flex-direction: column;
+  gap: var(--space-lg);
+  background-color: var(--clr-bg);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+}
+
+/* Row of two fields side by side */
+.form-row {
+  display: flex;              /* FLEX: two inputs in a row       */
+  gap: var(--space-md);
+}
+.form-row .form-group {
+  flex: 1;                    /* each field takes equal space    */
+  min-width: 0;
+}
+
+.form-group {
+  display: flex;              /* FLEX column: label then input   */
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.form-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--clr-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.form-input {
+  padding: 0.75rem 1rem;
+  background-color: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  color: var(--clr-text);
+  font-size: 0.9rem;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  outline: none;
+  width: 100%;
+}
+
+/* Focus state: highlight the active input */
+.form-input:focus {
+  border-color: var(--clr-accent);
+  box-shadow: 0 0 0 3px var(--clr-accent-dim);
+}
+
+.form-input::placeholder {
+  color: var(--clr-border);
+}
+
+/* Textarea-specific */
+.form-textarea {
+  resize: vertical;           /* allow vertical resize only      */
+  min-height: 130px;
+}
+
+
+/* ================================================================
+  13. FOOTER
+   ----------------------------------------------------------------
+   KEY FLEXBOX CONCEPTS DEMONSTRATED:
+   • .footer__top: flex row (logo | nav links)
+   • .footer__nav: flex row with gap
+   • .footer__bottom: flex row (copyright | socials) space-between
+   • .footer__socials: flex row
+   ================================================================ */
+.footer {
+  background-color: var(--clr-surface);
+  border-top: 1px solid var(--clr-border);
+  padding-block: var(--space-2xl) var(--space-lg);
+}
+
+.footer__top {
+  display: flex;              /* FLEX: logo and nav in a row     */
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
+}
+
+.footer__logo {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.footer__nav {
+  display: flex;              /* FLEX: nav links in a row        */
+  flex-wrap: wrap;
+  gap: var(--space-lg);
+}
+.footer__nav a {
+  font-size: 0.82rem;
+  color: var(--clr-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: color var(--transition);
+}
+.footer__nav a:hover {
+  color: var(--clr-accent);
+}
+
+.footer__divider {
+  border: none;
+  border-top: 1px solid var(--clr-border);
+  margin-bottom: var(--space-lg);
+}
+
+.footer__bottom {
+  display: flex;              /* FLEX: copyright ← space → icons */
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.footer__copy {
+  font-size: 0.8rem;
+  color: var(--clr-muted);
+}
+
+.footer__socials {
+  display: flex;              /* FLEX: social icons in a row     */
+  gap: var(--space-md);
+}
+
+
+/* ================================================================
+  14. BACK-TO-TOP BUTTON
+   ================================================================ */
+.back-to-top {
+  position: fixed;
+  bottom: var(--space-xl);
+  right: var(--space-xl);
+  z-index: 999;
+
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  background-color: var(--clr-accent);
+  color: var(--clr-bg);
+
+  display: flex;              /* FLEX: centre the arrow icon     */
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 4px 16px rgba(232, 255, 71, 0.3);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.back-to-top:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(232, 255, 71, 0.4);
+}
+
+
+/* ================================================================
+  15. ANIMATIONS & KEYFRAMES
+   ================================================================ */
+
+/* Fade up entrance animation */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Blinking cursor animation */
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
+/* Rotating avatar ring */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Skill bar grow animation */
+@keyframes growBar {
+  from { width: 0; }
+  to   { width: var(--fill); }
+}
+
+/* Section entry animation: applied via class with JS (or just runs once) */
+.section {
+  animation: fadeSlideUp 0.7s ease both;
+}
+
+
+/* ================================================================
+  16. MEDIA QUERIES — MOBILE RESPONSIVE
+   ----------------------------------------------------------------
+   Breakpoints:
+   • ≤ 1024px  — tablet:  adjust two-column layouts
+   • ≤  768px  — mobile:  stack everything, show hamburger
+   • ≤  480px  — small mobile: tighten spacing, single-column
+   ================================================================ */
+
+
+/* ---- TABLET (≤ 1024px) ---- */
+@media (max-width: 1024px) {
+
+  /* Projects: 2 cards per row */
+  .project-card {
+    max-width: calc(50% - var(--space-xl) / 2);
+  }
+
+  /* Timeline: simpler layout, all left */
+  .timeline::before {
+    left: 20px;
+  }
+  .timeline__item,
+  .timeline__item--left,
+  .timeline__item--right {
+    flex-direction: row;
+    padding-left: 52px;
+    padding-right: 0;
+  }
+  .timeline__dot {
+    left: 20px;
+  }
+
+  /* About: reduce gap */
+  .about__wrapper {
+    gap: var(--space-2xl);
+  }
+}
+
+
+/* ---- MOBILE (≤ 768px) ---- */
+@media (max-width: 768px) {
+
+  /* Show hamburger icon */
+  .hamburger {
+    display: flex;
+  }
+
+  /* Nav links become a vertical dropdown */
+  .navbar__links {
+    position: fixed;
+    top: var(--navbar-h);
+    left: 0;
+    right: 0;
+    background-color: var(--clr-surface);
+    border-bottom: 1px solid var(--clr-border);
+
+    flex-direction: column;   /* FLEX column: links stack vertically */
+    align-items: center;
+    gap: 0;
+
+    /* Hidden by default: zero height */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding var(--transition);
+    padding: 0;
+  }
+
+  /* When checkbox is checked: expand the menu */
+  .nav-toggle:checked ~ .navbar__links {
+    max-height: 400px;
+    padding-block: var(--space-lg);
+  }
+
+  .navbar__links a {
+    padding: var(--space-md) var(--space-xl);
+    width: 100%;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+  .navbar__links a::after {
+    display: none; /* remove underline animation in mobile menu */
+  }
+
+  /* --- Hero: stack content and image vertically --- */
+  .hero {
+    flex-direction: column;   /* FLEX column: image below text   */
+    text-align: center;
+    padding-top: calc(var(--navbar-h) + var(--space-xl));
+    padding-bottom: var(--space-2xl);
+  }
+
+  .hero__content {
+    order: 1;                 /* text first                      */
+  }
+  .hero__image {
+    order: 0;                 /* image above text on mobile      */
+  }
+
+  .hero__desc {
+    max-width: 100%;
+  }
+
+  .hero__cta,
+  .hero__socials {
+    justify-content: center;  /* centre-align CTA buttons        */
+  }
+
+  /* --- About: stack text and stats --- */
+  .about__wrapper {
+    flex-direction: column;   /* FLEX column: text then stats    */
+  }
+  .about__info-list li {
+    flex-basis: 100%;         /* each info item takes full width */
+  }
+  .about__stats {
+    width: 100%;
+  }
+
+  /* --- Skills: stack bars and badges --- */
+  .skills__wrapper {
+    flex-direction: column;   /* FLEX column: bars then badges   */
+  }
+
+  /* --- Projects: 1 card per row --- */
+  .project-card {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  /* --- Contact: stack info and form --- */
+  .contact__wrapper {
+    flex-direction: column;   /* FLEX column: info then form     */
+  }
+
+  /* Form row: stack first/last name fields */
+  .form-row {
+    flex-direction: column;   /* FLEX column: inputs stacked     */
+  }
+
+  /* Footer top: stack logo and nav */
+  .footer__top {
+    flex-direction: column;   /* FLEX column                     */
+    align-items: flex-start;
+  }
+  .footer__bottom {
+    flex-direction: column;   /* FLEX column                     */
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Timeline adjustment for mobile */
+  .timeline::before {
+    left: 14px;
+  }
+  .timeline__item,
+  .timeline__item--left,
+  .timeline__item--right {
+    padding-left: 44px;
+  }
+  .timeline__dot {
+    left: 14px;
+    width: 10px;
+    height: 10px;
+  }
+}
+
+
+/* ---- SMALL MOBILE (≤ 480px) ---- */
+@media (max-width: 480px) {
+
+  :root {
+    /* tighten up section spacing on very small screens */
+    --space-3xl: 3.5rem;
+  }
+
+  /* Stat cards: 1 per row */
+  .stat-card {
+    flex: 1 1 100%;
+  }
+
+  /* Avatar slightly smaller */
+  .avatar-frame {
+    width: 160px;
+    height: 160px;
+  }
+
+  /* Contact form: reduce padding */
+  .contact-form {
+    padding: var(--space-lg);
+  }
+
+  /* Back to top: smaller offset */
+  .back-to-top {
+    bottom: var(--space-lg);
+    right: var(--space-lg);
+  }
+}
